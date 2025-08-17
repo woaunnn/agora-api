@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -49,6 +50,12 @@ func main() {
 
 	app := fiber.New()
 
+	// Enable CORS
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // หรือใส่เฉพาะ domain เช่น "http://localhost:3000"
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+	}))
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
@@ -85,5 +92,5 @@ func main() {
 		})
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":4000"))
 }
